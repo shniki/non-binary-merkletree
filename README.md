@@ -1,4 +1,4 @@
-<h1 align="center">Merkle Tree in Golang</h1>
+<h1 align="center">Non-Binary Merkle Tree in Golang</h1>
 <p align="center">
 <a href="https://travis-ci.org/cbergoon/merkletree"><img src="https://travis-ci.org/cbergoon/merkletree.svg?branch=master" alt="Build"></a>
 <a href="https://goreportcard.com/report/github.com/cbergoon/merkletree"><img src="https://goreportcard.com/badge/github.com/cbergoon/merkletree?1=1" alt="Report"></a>
@@ -6,8 +6,8 @@
 <a href="#"><img src="https://img.shields.io/badge/version-0.1.0-brightgreen.svg" alt="Version"></a>
 </p>
 
-An implementation of a Merkle Tree written in Go. A Merkle Tree is a hash tree that provides an efficient way to verify
-the contents of a set data are present and untampered with.
+An implementation of a Non-Binary Merkle Tree written in Go. A Merkle Tree is a hash tree that provides an efficient way to verify
+the contents of a set data are present and untampered with. This Merkle Tree algorithm is based on cbergoon/merkletree, the only difference is that each node has a third middle child, between the two left and right ones.
 
 At its core, a Merkle Tree is a list of items representing the data that should be verified. Each of these items
 is inserted into a leaf node and a tree of hashes is constructed bottom up using a hash of the nodes left and
@@ -16,13 +16,9 @@ the tree. This property allows the tree to be reproduced and thus verified by on
 of the tree. The benefit of the tree structure is verifying any single content entry in the tree will require only
 nlog2(n) steps in the worst case.
 
-#### Documentation 
-
-See the docs [here](https://godoc.org/github.com/cbergoon/merkletree).
-
 #### Install
 ```
-go get github.com/cbergoon/merkletree
+go get github.com/shniki/non-binary-merkletree
 ```
 
 #### Example Usage
@@ -34,7 +30,7 @@ import (
   "crypto/sha256"
   "log"
 
-  "github.com/cbergoon/merkletree"
+  "github.com/shniki/non-binary-merkletree"
 )
 
 //TestContent implements the Content interface provided by merkletree and represents the content stored in the tree.
