@@ -33,6 +33,7 @@ type Node struct {
 	Tree   *MerkleTree
 	Parent *Node
 	Left   *Node
+	Middle   *Node
 	Right  *Node
 	leaf   bool
 	dup    bool
@@ -51,13 +52,18 @@ func (n *Node) verifyNode() ([]byte, error) {
 		return nil, err
 	}
 
+	middleBytes, err := n.Middle.verifyNode()
+	if err != nil {
+		return nil, err
+	}
+
 	leftBytes, err := n.Left.verifyNode()
 	if err != nil {
 		return nil, err
 	}
 
 	h := n.Tree.hashStrategy()
-	if _, err := h.Write(append(leftBytes, rightBytes...)); err != nil {
+	if _, err := h.Write(append(append(leftBytes, middleBytes...), rightBytes...)); err != nil {
 		return nil, err
 	}
 
@@ -71,7 +77,7 @@ func (n *Node) calculateNodeHash() ([]byte, error) {
 	}
 
 	h := n.Tree.hashStrategy()
-	if _, err := h.Write(append(n.Left.Hash, n.Right.Hash...)); err != nil {
+	if _, err := h.Write(append(append(n.Left.Hash, n.Middle.Hash...), n.Right.Hash...)); err != nil {
 		return nil, err
 	}
 
@@ -111,7 +117,7 @@ func NewTreeWithHashStrategy(cs []Content, hashStrategy func() hash.Hash) (*Merk
 	return t, nil
 }
 
-// GetMerklePath: Get Merkle path and indexes(left leaf or right leaf)
+// GetMerklePath: Get Merkle path and indexes(left leaf or middle leaf or right leaf)
 func (m *MerkleTree) GetMerklePath(content Content) ([][]byte, []int64, error) {
 	for _, current := range m.Leafs {
 		ok, err := current.C.Equals(content)
@@ -124,12 +130,23 @@ func (m *MerkleTree) GetMerklePath(content Content) ([][]byte, []int64, error) {
 			var merklePath [][]byte
 			var index []int64
 			for currentParent != nil {
-				if bytes.Equal(currentParent.Left.Hash, current.Hash) {
+				if bytes.Equal(currentParent.Left.Hash, current.Hash) { //is left
+					merklePath = append(merklePath, currentParent.Middle.Hash)
+					index = append(index, 1) // middle leaf
 					merklePath = append(merklePath, currentParent.Right.Hash)
-					index = append(index, 1) // right leaf
+					index = append(index, 2) // right leaf
 				} else {
-					merklePath = append(merklePath, currentParent.Left.Hash)
-					index = append(index, 0) // left leaf
+					if bytes.Equal(currentParent.Middle.Hash, current.Hash) { //is middle
+						merklePath = append(merklePath, currentParent.Left.Hash)
+						index = append(index, 0) // left leaf
+						merklePath = append(merklePath, currentParent.Right.Hash)
+						index = append(index, 2) // right leaf
+					} else { //is right
+						merklePath = append(merklePath, currentParent.Left.Hash)
+						index = append(index, 0) // left leaf
+						merklePath = append(merklePath, currentParent.Middle.Hash)
+						index = append(index, 1) // middle leaf
+					}
 				}
 				current = currentParent
 				currentParent = currentParent.Parent
@@ -161,7 +178,17 @@ func buildWithContent(cs []Content, t *MerkleTree) (*Node, []*Node, error) {
 			Tree: t,
 		})
 	}
-	if len(leafs)%2 == 1 {
+	if len(leafs)%3 != 0 { //add 1 or 2
+		duplicate := &Node{
+			Hash: leafs[len(leafs)-1].Hash,
+			C:    leafs[len(leafs)-1].C,
+			leaf: true,
+			dup:  true,
+			Tree: t,
+		}
+		leafs = append(leafs, duplicate)
+	}
+	if len(leafs)%3 != 0 { //add 2
 		duplicate := &Node{
 			Hash: leafs[len(leafs)-1].Hash,
 			C:    leafs[len(leafs)-1].C,
@@ -183,26 +210,32 @@ func buildWithContent(cs []Content, t *MerkleTree) (*Node, []*Node, error) {
 //the intermediate and root levels of the tree. Returns the resulting root node of the tree.
 func buildIntermediate(nl []*Node, t *MerkleTree) (*Node, error) {
 	var nodes []*Node
-	for i := 0; i < len(nl); i += 2 {
+	for i := 0; i < len(nl); i += 3 {
 		h := t.hashStrategy()
-		var left, right int = i, i + 1
+		var left, middle, right int = i, i + 1, i+2
 		if i+1 == len(nl) {
+			middle = i
 			right = i
 		}
-		chash := append(nl[left].Hash, nl[right].Hash...)
+		if i+2 == len(nl) {
+			right = i+1
+		}
+		chash := append(append(nl[left].Hash, nl[middle].Hash...), nl[right].Hash...)
 		if _, err := h.Write(chash); err != nil {
 			return nil, err
 		}
 		n := &Node{
 			Left:  nl[left],
+			Middle:  nl[middle],
 			Right: nl[right],
 			Hash:  h.Sum(nil),
 			Tree:  t,
 		}
 		nodes = append(nodes, n)
 		nl[left].Parent = n
+		nl[middle].Parent = n
 		nl[right].Parent = n
-		if len(nl) == 2 {
+		if len(nl) <= 3 { //2 or 3
 			return n, nil
 		}
 	}
@@ -278,12 +311,17 @@ func (m *MerkleTree) VerifyContent(content Content) (bool, error) {
 					return false, err
 				}
 
+				middleBytes, err := currentParent.Middle.calculateNodeHash()
+				if err != nil {
+					return false, err
+				}
+
 				leftBytes, err := currentParent.Left.calculateNodeHash()
 				if err != nil {
 					return false, err
 				}
 
-				if _, err := h.Write(append(leftBytes, rightBytes...)); err != nil {
+				if _, err := h.Write(append(append(leftBytes, middleBytes...), rightBytes...)); err != nil {
 					return false, err
 				}
 				if bytes.Compare(h.Sum(nil), currentParent.Hash) != 0 {
