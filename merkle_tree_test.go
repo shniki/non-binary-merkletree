@@ -89,7 +89,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestSHA256Content{x: "NotInTestTable"},
-		expectedHash:  []byte{95, 48, 204, 128, 19, 59, 147, 148, 21, 110, 36, 178, 51, 240, 196, 190, 50, 178, 78, 68, 187, 51, 129, 240, 44, 123, 165, 38, 25, 208, 254, 188},
+		expectedHash:  []byte{206, 254, 70, 223, 66, 98, 26, 14, 101, 142, 83, 192, 203, 178, 28, 118, 133, 16, 138, 121, 14, 185, 226, 165, 131, 111, 105, 34, 54, 246, 220, 4},
 	},
 	{
 		testCaseId:          1,
@@ -108,7 +108,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestSHA256Content{x: "NotInTestTable"},
-		expectedHash:  []byte{189, 214, 55, 197, 35, 237, 92, 14, 171, 121, 43, 152, 109, 177, 136, 80, 194, 57, 162, 226, 56, 2, 179, 106, 255, 38, 187, 104, 251, 63, 224, 8},
+		expectedHash:  []byte{63, 240, 237, 114, 142, 213, 228, 172, 93, 192, 198, 196, 190, 235, 23, 60, 147, 135, 7, 153, 180, 94, 144, 142, 154, 166, 53, 61, 42, 187, 63, 54},
 	},
 	{
 		testCaseId:          2,
@@ -133,7 +133,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestSHA256Content{x: "NotInTestTable"},
-		expectedHash:  []byte{46, 216, 115, 174, 13, 210, 55, 39, 119, 197, 122, 104, 93, 144, 112, 131, 202, 151, 41, 14, 80, 143, 21, 71, 140, 169, 139, 173, 50, 37, 235, 188},
+		expectedHash:  []byte{178, 121, 255, 26, 114, 25, 42, 112, 92, 202, 217, 133, 97, 230, 102, 163, 102, 225, 186, 82, 251, 231, 47, 194, 212, 253, 26, 40, 42, 95, 168, 108},
 	},
 	{
 		testCaseId:          3,
@@ -167,7 +167,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestSHA256Content{x: "NotInTestTable"},
-		expectedHash:  []byte{30, 76, 61, 40, 106, 173, 169, 183, 149, 2, 157, 246, 162, 218, 4, 70, 153, 148, 62, 162, 90, 24, 173, 250, 41, 149, 173, 121, 141, 187, 146, 43},
+		expectedHash:  []byte{101, 196, 9, 196, 60, 49, 184, 235, 89, 5, 214, 74, 3, 93, 110, 61, 163, 61, 60, 4, 245, 63, 228, 27, 18, 110, 165, 188, 229, 196, 125, 123},
 	},
 	{
 		testCaseId:          4,
@@ -204,7 +204,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestSHA256Content{x: "NotInTestTable"},
-		expectedHash:  []byte{143, 37, 161, 192, 69, 241, 248, 56, 169, 87, 79, 145, 37, 155, 51, 159, 209, 129, 164, 140, 130, 167, 16, 182, 133, 205, 126, 55, 237, 188, 89, 236},
+		expectedHash:  []byte{136, 27, 7, 151, 215, 19, 217, 58, 89, 221, 221, 123, 2, 35, 10, 34, 197, 59, 63, 133, 79, 62, 23, 14, 28, 210, 84, 170, 87, 9, 154, 192},
 	},
 	{
 		testCaseId:          5,
@@ -226,7 +226,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestMD5Content{x: "NotInTestTable"},
-		expectedHash:  []byte{217, 158, 206, 52, 191, 78, 253, 233, 25, 55, 69, 142, 254, 45, 127, 144},
+		expectedHash:  []byte{63, 103, 175, 82, 194, 240, 155, 114, 128, 249, 234, 57, 117, 94, 252, 93},
 	},
 	{
 		testCaseId:          6,
@@ -245,7 +245,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestMD5Content{x: "NotInTestTable"},
-		expectedHash:  []byte{145, 228, 171, 107, 94, 219, 221, 171, 7, 195, 206, 128, 148, 98, 59, 76},
+		expectedHash:  []byte{157, 243, 189, 250, 36, 102, 147, 4, 253, 41, 198, 195, 90, 117, 239, 32},
 	},
 	{
 		testCaseId:          7,
@@ -270,7 +270,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestMD5Content{x: "NotInTestTable"},
-		expectedHash:  []byte{167, 200, 229, 62, 194, 247, 117, 12, 206, 194, 90, 235, 70, 14, 100, 100},
+		expectedHash:  []byte{115, 156, 191, 184, 167, 81, 150, 103, 14, 237, 158, 113, 114, 202, 204, 239},
 	},
 	{
 		testCaseId:          8,
@@ -304,7 +304,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestMD5Content{x: "NotInTestTable"},
-		expectedHash:  []byte{8, 36, 33, 50, 204, 197, 82, 81, 207, 74, 6, 60, 162, 209, 168, 21},
+		expectedHash:  []byte{193, 37, 164, 137, 29, 104, 166, 52, 32, 20, 214, 31, 193, 86, 247, 194},
 	},
 	{
 		testCaseId:          9,
@@ -341,7 +341,7 @@ var table = []struct {
 			},
 		},
 		notInContents: TestMD5Content{x: "NotInTestTable"},
-		expectedHash:  []byte{158, 85, 181, 191, 25, 250, 251, 71, 215, 22, 68, 68, 11, 198, 244, 148},
+		expectedHash:  []byte{252, 223, 58, 193, 109, 54, 118, 145, 42, 5, 73, 192, 71, 201, 102, 133},
 	},
 }
 
@@ -569,11 +569,15 @@ func TestMerkleTree_MerklePath(t *testing.T) {
 				t.Errorf("[case:%d] error: calculateNodeHash error: %v", table[i].testCaseId, err)
 			}
 			h := sha256.New()
-			for k := 0; k < len(merklePath); k++ {
-				if index[k] == 1 {
-					hash = append(hash, merklePath[k]...)
-				} else {
-					hash = append(merklePath[k], hash...)
+			for k := 0; k < len(merklePath); k+=2 {
+				if (index[k] == 1 && index[k+1] == 2) { //is left
+					hash = append(append(hash, merklePath[k]...), merklePath[k+1]...)
+				}else{
+					if (index[k] == 0 && index[k+1] == 2) { //is middle
+					hash = append(append(merklePath[k], hash...), merklePath[k+1]...)
+					}else{ //is right
+						hash = append(append(merklePath[k], merklePath[k+1]...), hash...)
+					}
 				}
 				if _, err := h.Write(hash); err != nil {
 					t.Errorf("[case:%d] error: Write error: %v", table[i].testCaseId, err)
